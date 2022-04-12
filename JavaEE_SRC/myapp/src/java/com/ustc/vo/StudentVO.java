@@ -33,6 +33,7 @@ public class StudentVO
 	}
 	/**
 	 * @param city The city to set.
+	 * @return 
 	 */
 	public void setCity(String city) {
 		this.city = city;
