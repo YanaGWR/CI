@@ -1,0 +1,37 @@
+name: Build And Deploy To Aliyun ECS
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+  workflow_dispatch:
+  
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      
+      # step：设置jdk版本
+      - name: set up JDK 1.8
+        # 引用公共action
+        uses: actions/setup-java@v1
+        with:
+          # 设置参数
+          java-version: 1.8
+          
+      - name: Deploy to aliyun server
+        uses: kostya-ten/ssh-server-deploy@v4
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          port: ${{ secrets.DEPLOY_PORT }}
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.DEPLOY_PASSWORD }}
+          scp_source: "./myapp.war/"
+          scp_target: ${{ secrets.TARGET }}
+
+     
